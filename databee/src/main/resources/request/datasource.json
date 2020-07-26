@@ -1,0 +1,10 @@
+{
+	"database": "SqlServer",
+	"connectionString": "jdbc:sqlserver://adfcaanarytestrepo.database.windows.net;databaseName=testrepocanary;user=svijaya;password=Test123!",
+	"recordsCount": 5,
+	"language": "English",
+	"bigdata": false,
+	"useDictionary": true
+}
+
+

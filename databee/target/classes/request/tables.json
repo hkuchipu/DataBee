@@ -1,0 +1,341 @@
+{
+  "tables": [
+    {
+      "tableName": "CUSTOMERS",
+      "columns": {
+        "CustomedID": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "Sequence",
+          "pattern": "\\d{4,}",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "CompanyName": {
+          "dataType": "varchar",
+          "dependentColumn": "",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "ascii",
+          "dictionarySource": "CompanyName"
+        },
+        "ContactName": {
+          "dataType": "varchar",
+          "dependentColumn": "Firstname,Lastname",
+          "strategy": "dictionary",
+          "pattern": "Firstname Lastname",
+          "criteria": "ascii,firstname!=lastname",
+          "dictionarySource": "Name"
+        },
+        "Role": {
+          "dataType": "varchar",
+          "dependentColumn": "",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": "Role"
+        },
+        "Address": {
+          "dataType": "varchar",
+          "dependentColumn": "",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": "Address"
+        },
+        "City": {
+          "dataType": "varchar",
+          "dependentColumn": "Address",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": "Address"
+        },
+        "PostalCode": {
+          "dataType": "int",
+          "dependentColumn": "Address",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": "Address"
+        },
+        "Country": {
+          "dataType": "varchar",
+          "dependentColumn": "Address",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "Address.City",
+          "dictionarySource": "Address"
+        },
+        "Phone": {
+          "dataType": "bigint",
+          "dependentColumn": "Country",
+          "strategy": "dictionary",
+          "pattern": "\\d[^0]",
+          "criteria": "",
+          "dictionarySource": "Phone"
+        }
+      }
+    },
+    {
+      "tableName": "PRODUCTS",
+      "columns": {
+        "ProductID": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "Sequence",
+          "pattern": "\\d{5,}",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "ProductName": {
+          "dataType": "varchar",
+          "dependentColumn": "",
+          "strategy": "dictionary",
+          "pattern": "",
+          "criteria": "ascii",
+          "dictionarySource": "ProductName"
+        },
+        "QuantityPerUnit": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d[1-1000]{1,4}",
+          "criteria": ">0",
+          "dictionarySource": ""
+        },
+        "UnitPrice": {
+          "dataType": "money",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "^[$]\\d{1,}",
+          "criteria": ">0",
+          "dictionarySource": ""
+        },
+        "UnitsInStock": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d[1-100]",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "UnitsOnOrder": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d[1-50]",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "ReorderLevel": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d[1-50]",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "Discontinued": {
+          "dataType": "bit",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "[0|1]",
+          "criteria": "",
+          "dictionarySource": ""
+        }
+      }
+    },
+    {
+      "tableName": "ORDERS",
+      "columns": {
+        "OrderID": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "Sequence",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "CustomerID": {
+          "dataType": "int",
+          "dependentColumn": "Customers.CustomerID",
+          "strategy": "Sequence",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "OrderDate": {
+          "dataType": "date",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "date",
+          "criteria": "random,Date > 6*mm",
+          "dictionarySource": ""
+        },
+        "RequiredDate": {
+          "dataType": "date",
+          "dependentColumn": "OrderDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "RequiredDate > OrderDate,[OrderDate+3d,OrderDate+5d,OrderDate+7d]",
+          "dictionarySource": ""
+        },
+        "ShippedDate": {
+          "dataType": "date",
+          "dependentColumn": "OrderDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "ShippedDate > OrderDate,[OrderDate+2d,OrderDate+3d,OrderDate+5d]",
+          "dictionarySource": ""
+        },
+        "Freight": {
+          "dataType": "money",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "^[$]\\d[5-150]",
+          "criteria": "",
+          "dictionarySource": ""
+        }
+      }
+    },
+    {
+      "tableName": "ORDERDETAILS",
+      "columns": {
+        "OrderID": {
+          "dataType": "int",
+          "dependentColumn": "ORDERS.OrderID",
+          "strategy": "Sequence",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "ProductID": {
+          "dataType": "int",
+          "dependentColumn": "PRODUCTS.ProductID",
+          "strategy": "Sequence",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "UnitPrice": {
+          "dataType": "float",
+          "dependentColumn": "PRODUCTS.UnitPrice",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "Quantity": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d",
+          "criteria": ">0",
+          "dictionarySource": ""
+        },
+        "Discount": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "",
+          "pattern": "\\d[1-50]",
+          "criteria": "",
+          "dictionarySource": ""
+        }
+      }
+    },
+    {
+      "tableName": "INVOICES",
+      "columns": {
+        "InvoiceID": {
+          "dataType": "int",
+          "dependentColumn": "",
+          "strategy": "Sequence",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "InvoiceDate": {
+          "dataType": "date",
+          "dependentColumn": "ORDERS.InvoiceDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "InvoiceDate > OrderDate",
+          "dictionarySource": ""
+        },
+        "OrderID": {
+          "dataType": "int",
+          "dependentColumn": "ORDERS.OrderID",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "OrderDate": {
+          "dataType": "date",
+          "dependentColumn": "ORDERS.OrderDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "RequiredDate": {
+          "dataType": "date",
+          "dependentColumn": "ORDERS.RequiredDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "ShippedDate": {
+          "dataType": "date",
+          "dependentColumn": "ORDERS.ShippedDate",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "ProductID": {
+          "dataType": "int",
+          "dependentColumn": "ORDERSDETAILS.ProductID",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "UnitPrice": {
+          "dataType": "float",
+          "dependentColumn": "ORDERSDETAILS.UnitPrice",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "Quantity": {
+          "dataType": "int",
+          "dependentColumn": "ORDERSDETAILS.Quantity",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "Discount": {
+          "dataType": "int",
+          "dependentColumn": "ORDERSDETAILS.Discount",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        },
+        "Freight": {
+          "dataType": "int",
+          "dependentColumn": "ORDERS.Freight",
+          "strategy": "",
+          "pattern": "",
+          "criteria": "",
+          "dictionarySource": ""
+        }
+      }
+    }
+  ]
+}
